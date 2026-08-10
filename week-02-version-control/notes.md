@@ -1,4 +1,4 @@
-# Version Control (Git & GitHub) — Learning Notes
+# Version Control (Git & GitHub) — Learning Notes.
 
 **Week 2 Deliverable **
 Repository: `flexisaf-fe` — practiced on the `week-02-version-control` branch
