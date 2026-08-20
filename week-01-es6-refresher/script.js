@@ -1,14 +1,10 @@
-// ============================================
-// ES6 FEATURES CASE STUDY: Student Grade Tracker
-// ============================================
-
 // --- 1. OBJECTS ---
 // An array of objects — each object represents a student
 const students = [
   { name: "Amaka", score: 78 },
   { name: "Tunde", score: 45 },
   { name: "Chiamaka", score: 92 },
-  { name: "Bello", score: 60 },
+  { name: "Bello", score: 40 },
   { name: "Ifeoma", score: 38 },
 ];
 
@@ -19,7 +15,7 @@ const PASS_MARK = 50;
 // let: value that WILL change as we loop/accumulate
 let totalScore = 0;
 
-// --- 3. SCOPE DEMO ---
+// --- 3. SCOPE ---
 // Block scope: `let` and `const` only exist inside the {} they're declared in
 function scopeDemo() {
   let insideFunction = "I only exist inside scopeDemo()";
