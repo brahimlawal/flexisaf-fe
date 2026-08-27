@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>RESTful API — CRUD Demo</title>
+  <style>
+    body { font-family: Arial, sans-serif; max-width: 650px; margin: 40px auto; }
+    h1 { color: #2c3e50; }
+    button { padding: 8px 14px; margin: 4px 6px 4px 0; cursor: pointer; }
+    pre { background: #f4f4f4; padding: 12px; border-radius: 6px; white-space: pre-wrap; word-break: break-word; }
+    .row { margin-bottom: 10px; }
+  </style>
+</head>
+<body>
+  <h1>RESTful API CRUD Demo</h1>
+  <p>I am using <code>jsonplaceholder.typicode.com</code> a free fake REST API for testing. Open the console every response is logged there.</p>
+
+  <div class="row">
+    <button id="btnGet">GET /posts/1</button>
+    <button id="btnPost">POST new post</button>
+    <button id="btnPut">PUT update post 1</button>
+    <button id="btnDelete">DELETE post 1</button>
+  </div>
+
+  <pre id="output">Click a button to make a request...</pre>
+
+  <script>
+    const BASE_URL = "https://jsonplaceholder.typicode.com/posts";
+    const output = document.getElementById("output");
+
+    // Small helper so we're not repeating the same fetch + logging code 4 times
+    async function callApi(method, url, body) {
+      output.textContent = `Sending ${method} request...`;
+      try {
+        const options = { method };
+        if (body) {
+          options.headers = { "Content-Type": "application/json" };
+          options.body = JSON.stringify(body);
+        }
+
+        const response = await fetch(url, options);
+        const data = await response.json();
+
+        console.log(`${method} ${url} → status ${response.status}`, data);
+        output.textContent =
+          `${method} ${url}\nStatus: ${response.status}\n\n` +
+          JSON.stringify(data, null, 2);
+      } catch (error) {
+        console.error(`${method} request failed:`, error);
+        output.textContent = `Error: ${error.message}`;
+      }
+    }
+
+   
+    document.getElementById("btnGet").addEventListener("click", () => {
+      callApi("GET", `${BASE_URL}/1`);
+    });
+
+   
+    document.getElementById("btnPost").addEventListener("click", () => {
+      callApi("POST", BASE_URL, {
+        title: "My New Post",
+        body: "This is the body of my new post.",
+        userId: 1,
+      });
+    });
+
+    
+    document.getElementById("btnPut").addEventListener("click", () => {
+      callApi("PUT", `${BASE_URL}/1`, {
+        id: 1,
+        title: "Updated Title",
+        body: "This post has been updated.",
+        userId: 1,
+      });
+    });
+
+  
+    document.getElementById("btnDelete").addEventListener("click", () => {
+      callApi("DELETE", `${BASE_URL}/1`);
+    });
+  </script>
+</body>
+</html>
