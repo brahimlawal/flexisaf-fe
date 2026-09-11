@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>State Management Context API & Redux</title>
+  <style>
+    body { font-family: Arial, sans-serif; max-width: 650px; margin: 40px auto; }
+    h1 { color: #2c3e50; }
+    h2 { color: #2c3e50; margin-top: 40px; border-top: 1px solid #eee; padding-top: 20px; }
+    .card { border-radius: 6px; padding: 16px; margin-bottom: 12px; border: 1px solid #ccc; }
+    button { padding: 8px 14px; margin-right: 8px; cursor: pointer; }
+  </style>
+
+  <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <!-- Redux core library (not react-redux) — used directly so the
+       store/action/reducer/dispatch pattern is visible without a
+       binding library doing the wiring for us -->
+  <script src="https://unpkg.com/redux@4.2.1/dist/redux.min.js"></script>
+</head>
+<body>
+  <h1>State Management Context API & Redux</h1>
+  <p>Two different approaches to sharing state without passing props down manually through every level ("prop drilling").</p>
+  <div id="root"></div>
+
+  <script type="text/babel">
+    const { useState, useEffect, useContext, createContext, useReducer } = React;
+
+
+
+
+    const ThemeContext = createContext();
+
+
+    function themeReducer(state, action) {
+      switch (action.type) {
+        case "TOGGLE_THEME":
+          return state === "light" ? "dark" : "light";
+        default:
+          return state;
+      }
+    }
+
+
+    function ThemeProvider({ children }) {
+      const [theme, dispatch] = useReducer(themeReducer, "light");
+      return (
+        <ThemeContext.Provider value={{ theme, dispatch }}>
+          {children}
+        </ThemeContext.Provider>
+      );
+    }
+
+
+    function ThemedCard() {
+      const { theme, dispatch } = useContext(ThemeContext);
+      const style = {
+        background: theme === "light" ? "#fff" : "#2c3e50",
+        color: theme === "light" ? "#000" : "#fff",
+      };
+      return (
+        <div className="card" style={style}>
+          <h2>Context API</h2>
+          <p>Current theme: <strong>{theme}</strong></p>
+          <button onClick={() => dispatch({ type: "TOGGLE_THEME" })}>
+            Toggle Theme
+          </button>
+        </div>
+      );
+    }
+
+
+    function counterReducer(state = { count: 0 }, action) {
+      switch (action.type) {
+        case "INCREMENT":
+          return { count: state.count + 1 };
+        case "DECREMENT":
+          return { count: state.count - 1 };
+        default:
+          return state;
+      }
+    }
+
+
+    const store = Redux.createStore(counterReducer);
+
+
+    function ReduxCounter() {
+      const [state, setState] = useState(store.getState());
+
+      useEffect(() => {
+        const unsubscribe = store.subscribe(() => {
+          setState(store.getState());
+        });
+        return unsubscribe; 
+      }, []);
+
+      return (
+        <div className="card">
+          <h2>Redux</h2>
+          <p>Count: {state.count}</p>
+          <button onClick={() => store.dispatch({ type: "INCREMENT" })}>+</button>
+          <button onClick={() => store.dispatch({ type: "DECREMENT" })}>-</button>
+        </div>
+      );
+    }
+
+    function App() {
+      return (
+        <ThemeProvider>
+          <ThemedCard />
+          <ReduxCounter />
+        </ThemeProvider>
+      );
+    }
+
+    const root = ReactDOM.createRoot(document.getElementById("root"));
+    root.render(<App />);
+  </script>
+</body>
+</html>

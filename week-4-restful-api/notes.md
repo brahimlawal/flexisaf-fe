@@ -1,7 +1,7 @@
 # RESTful API — Learning Notes
 
 **Week 4 Deliverable — Frontend Advanced**
-Case study project: `restful-api.html` (see this folder)
+Case study project: `restful-api.html` 
 
 ---
 

@@ -1,7 +1,7 @@
 # React Hooks — Learning Notes
 
 **Week 5 Deliverable — Frontend Advanced**
-Case study project: `react-hooks.html` (see this folder)
+Case study project: `react-hooks.html`
 
 ---
 
