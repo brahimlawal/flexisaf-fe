@@ -33,9 +33,9 @@ import AddIcon from "@mui/icons-material/Add";
 const PASS_MARK = 50;
 
 const initialStudents = [
-  { id: 1, name: "Amaka", score: 78 },
+  { id: 1, name: "Waziri", score: 78 },
   { id: 2, name: "Tunde", score: 45 },
-  { id: 3, name: "Chiamaka", score: 92 },
+  { id: 3, name: "Aisha", score: 92 },
   { id: 4, name: "Bello", score: 60 },
   { id: 5, name: "Ifeoma", score: 38 },
 ];
